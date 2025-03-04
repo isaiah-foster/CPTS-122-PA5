@@ -2,8 +2,6 @@
 #include <iostream>
 #include <string>
 
-
-
 class Data
 {
 public:
@@ -65,5 +63,10 @@ void Data::setTotalTime(int _totalTime)
 {
 	totalTime = _totalTime;
 }
+void Data::printData()
+{
+
+}
+
 
 #pragma endregion
