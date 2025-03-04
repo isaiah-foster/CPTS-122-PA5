@@ -1,34 +1,49 @@
 #pragma once
 #include "data.hpp"
-class QueueNode
+
+template <typename T> class Node
 {
 private:
-	Data* pData;
-	QueueNode* pNext;
+	T data;
+	Node<T>* next;
 public:
-	QueueNode();
-	QueueNode(Data* pData);
-	~QueueNode();
-	Data getData();
-};
-#pragma region QueueNode Members
-QueueNode::QueueNode()
-{
-	pData = nullptr;
-	pNext = nullptr;
-}
-QueueNode::QueueNode(Data* pData)
-{
-	this->pData = pData;
-	pNext = nullptr;
-}
-QueueNode::~QueueNode()
-{
-	//work on this
-}
-Data QueueNode::getData()
-{
-	return *pData;
-}
-#pragma endregion
+	Node(T _data);
 
+	~Node();
+	T getData();
+	Node<T>* getNext();
+	void setNext(Node<T>* _next);
+};
+
+template <typename T>
+Node<T>::Node(T _data)
+{
+	data = _data;
+	next = nullptr;
+}
+
+template <typename T>
+Node<T>::~Node()
+{
+
+}
+
+template <typename T>
+T Node<T>::getData()
+{
+	return data;
+}
+
+template <typename T>
+Node<T>* Node<T>::getNext()
+{
+	return next;
+}
+
+template <typename T>
+void Node<T>::setNext(Node<T>* _next)
+{
+	next = _next;
+}
+
+#pragma endregion
