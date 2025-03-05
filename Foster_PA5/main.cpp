@@ -1,13 +1,11 @@
-#include "queue.hpp"
-#include "data.hpp"
+#include "tests.hpp"
+#include "simulation.hpp"
 
 int main(void)
 {
-	Queue queue1;
-	Queue queue2;
-
-
-
-
+	runTests();
+	Simulation sim;
+	sim.runSimulation();
+	
 	return 0;
 }

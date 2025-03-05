@@ -130,6 +130,7 @@
     <ClInclude Include="data.hpp" />
     <ClInclude Include="node.hpp" />
     <ClInclude Include="queue.hpp" />
+    <ClInclude Include="simulation.hpp" />
     <ClInclude Include="tests.hpp" />
   </ItemGroup>
   <ItemGroup>

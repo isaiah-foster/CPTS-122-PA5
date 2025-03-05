@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-#include "data.hpp"
 #include "node.hpp"
 
 template <typename T> class Queue
@@ -92,7 +90,7 @@ void Queue<T>::printQueueRecursive(Node<T>* pCur)
 	{
 		return;
 	}
-	std::cout << pCur->getData() << std::endl;
+	std::cout << pCur->getData().getCustomerNumber() << std::endl;
 	printQueueRecursive(pCur->getNext());
 }
 
@@ -101,13 +99,11 @@ T Queue<T>::peek()
 {
 	if (isEmpty())
 	{
-		std::cout << "shit is empty as hell foo" << std::endl;
-		return nullptr;
+		return Data(0,0,0,0);
 	}
 	else
 	{
-		std::cout << "Peek: " << pHead->getData().getCustomerNumber() << std::endl;
-		return &(pHead->getData()); //address of the data
+		return pHead->getData();
 	}
 }
 #pragma endregion
