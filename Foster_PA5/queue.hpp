@@ -17,7 +17,7 @@ public:
 	T peek();
 };
 
-#pragma region Member Functions
+
 template <typename T>
 Queue<T>::Queue()
 {
@@ -106,4 +106,3 @@ T Queue<T>::peek()
 		return pHead->getData();
 	}
 }
-#pragma endregion

@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="data.hpp" />
+    <ClInclude Include="groceryList.hpp" />
     <ClInclude Include="node.hpp" />
     <ClInclude Include="queue.hpp" />
     <ClInclude Include="simulation.hpp" />

@@ -3,6 +3,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <Windows.h>
 
 class Data
 {
@@ -81,6 +82,4 @@ void Data::printData()
 {
 
 }
-
-
 #pragma endregion

@@ -1,8 +1,6 @@
 #pragma once
 #include "queue.hpp"
-#include <iostream>
-#include <Windows.h>
-#define SLEEP_TIME 20
+#define SLEEP_TIME .01
 
 class Simulation
 {
@@ -12,112 +10,86 @@ private:
 public:
 	Simulation();
 	~Simulation();
-	void runSimulation();
+	void runSimulation(int run_minutes);
 };
 
-#pragma region Member Functions
 Simulation::Simulation()
 {
 	express = Queue<Data>();
 	normal = Queue<Data>();
 }
 
-Simulation::~Simulation() {}
+Simulation::~Simulation() 
+{
+}
 
-void Simulation::runSimulation()
+void Simulation::runSimulation(int run_minutes)
 {
 	srand((unsigned int)time(NULL));
 
-	int firstExpress = rand() % 5 + 1;
-	int firstNormal = rand() % 5 + 3;
-
+	int nextNormalArrival = rand() % 5 + 3;
+	int nextExpressArrival = rand() % 5 + 1;
+	
 	int serviceTime = 0;
-
-	int nextExpressArrival = 0;
-	int nextNormalArrival = 0;
 
 	int normalCustomerNumber = 0;
 	int expressCustomerNumber = 0;
 
-	int expressTotalTime = 0;
 	int normalTotalTime = 0;
+	int expressTotalTime = 0;
 
-	for (int i = 0; i < 1440; i++)
+	for (int elapsed_time = 0; elapsed_time < run_minutes; elapsed_time++)
 	{
-		Sleep(SLEEP_TIME);
-		//first normal customer makes it to the front of the line
-		if (i == firstNormal)
-		{
-			normalCustomerNumber++;
-			serviceTime = rand() % 5 + 3;
-			normalTotalTime += serviceTime;
-			Data customer(normalCustomerNumber, serviceTime, normalTotalTime, i);
-			normal.enqueue(customer);
-			nextNormalArrival = i + rand() % 5 + 3;
-		}
-
-		//first express customer makes it to the front of the line
-		if (i == firstExpress)
-		{
-			expressCustomerNumber++;
-			serviceTime = rand() % 5 + 1;
-			expressTotalTime += serviceTime;
-			Data customer(expressCustomerNumber, serviceTime, expressTotalTime, i);
-			express.enqueue(customer);
-			nextExpressArrival = i + rand() % 5 + 1;
-		}
+		Sleep(SLEEP_TIME); //pause between iterations
 
 		//next normal customer makes it to the line
-		if (i == nextNormalArrival)
+		if (elapsed_time == nextNormalArrival)
 		{
 			normalCustomerNumber++;
 			serviceTime = rand() % 5 + 3;
 			normalTotalTime += serviceTime;
-			Data customer(normalCustomerNumber, serviceTime, normalTotalTime, i);
+			Data customer(normalCustomerNumber, serviceTime, normalTotalTime, elapsed_time);
 			normal.enqueue(customer);
-			nextNormalArrival = i + rand() % 5 + 3;
-			std::cout << "Customer" << customer.getCustomerNumber() << " has arrived to express lane at time " << i << std::endl;
-
+			nextNormalArrival = elapsed_time + rand() % 5 + 3;
+			std::cout << "Normal customer " << customer.getCustomerNumber() << " has arrived at time " << elapsed_time << std::endl;
 		}
 
 		//next express customer makes it to the line
-		if (i == nextExpressArrival)
+		if (elapsed_time == nextExpressArrival)
 		{
 			expressCustomerNumber++;
 			serviceTime = rand() % 5 + 1;
 			expressTotalTime += serviceTime;
-			Data customer(expressCustomerNumber, serviceTime, expressTotalTime, i);
+			Data customer(expressCustomerNumber, serviceTime, expressTotalTime, elapsed_time);
 			express.enqueue(customer);
-			nextExpressArrival = i + rand() % 5 + 1;
-			std::cout << "Customer" << customer.getCustomerNumber() << " has arrived to express lane at time " << i << std::endl;
+			nextExpressArrival = elapsed_time + rand() % 5 + 1;
+			std::cout << "Express customer " << customer.getCustomerNumber() << " has arrived at time " << elapsed_time << std::endl;
 		}
 
 		//normal customer at front of line is done
-		if (normal.peek().getEntryTime() + normal.peek().getServiceTime() == i)
+		if (normal.peek().getEntryTime() + normal.peek().getTotalTime() <= elapsed_time && !normal.isEmpty())
 		{
-			std::cout << "Normal customer " << normal.peek().getCustomerNumber() << " serviced after" << normal.peek().getTotalTime() << " minutes" << std::endl;
+			std::cout << "Normal customer " << normal.peek().getCustomerNumber() << " serviced after " << normal.peek().getTotalTime() << " minutes" << std::endl;
 			normalTotalTime -= normal.peek().getServiceTime();
 			normal.dequeue();
-			
 		}
 
-		//express customer at front of is done
-		if (express.peek().getEntryTime() + express.peek().getServiceTime() == i)
+		//express customer at front of line is done
+		if (express.peek().getEntryTime() + express.peek().getTotalTime() <= elapsed_time && !express.isEmpty())
 		{
-			std::cout << "Express customer " << express.peek().getCustomerNumber() << " serviced after" << express.peek().getTotalTime() << " minutes" << std::endl;
+			std::cout << "Express customer " << express.peek().getCustomerNumber() << " serviced after " << express.peek().getTotalTime() << " minutes" << std::endl;
 			expressTotalTime -= express.peek().getServiceTime();
 			express.dequeue();
 		}
 
 		//print queues every 10 minutes
-		if (i % 10 == 0)
+		if (elapsed_time % 10 == 0 && elapsed_time!=0)
 		{
-			std::cout << "Time: " << i << std::endl;
-			std::cout << "Normal Lane:" << std::endl;
+			std::cout << "Time: " << elapsed_time << std::endl;
+			std::cout << "Normal Lane Customers:" << std::endl;
 			normal.printQueueRecursive();
-			std::cout << "Express Lane:" << std::endl;
+			std::cout << "Express Lane Customers:" << std::endl;
 			express.printQueueRecursive();
 		}
-
 	}
 }
