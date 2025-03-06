@@ -1,5 +1,13 @@
 #include "tests.hpp"
-
+/*File: main.cpp
+* Author: Isaiah Foster
+* Professor: Andy O'fallon
+* Class: Cpts_122
+* Assignment: PA5
+* Created: 03/02/2025
+* Last updated: 03/05/2025
+* Description: Runs tests, creates and runs a simulation for 8 hours
+*/
 int main(void)
 {
 	runTests();
