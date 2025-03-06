@@ -1,15 +1,11 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <time.h>
-#include <Windows.h>
+#include "groceryList.hpp"
 
 class Data
 {
 public:
 	Data();
-	Data(int _customerNumber, int _serviceTime, int _totalTime, int _entryTime);
+	Data(int _customerNumber, int _totalTime, int _entryTime);
 	~Data();
 	int getCustomerNumber();
 	int getServiceTime();
@@ -20,6 +16,8 @@ public:
 	void setTotalTime(int totalTime);
 	void setEntryTime(int entryTime);
 	void printData();
+	GroceryList getGroceryList() { return groceryList; }
+
 private:
 	int customerNumber; // Unique identifier; starts at 1; after 24 hours should be reset to 1
 	int serviceTime; // Random time; varies between express and normal lanes; units in
@@ -27,20 +25,24 @@ private:
 	int totalTime; // totalTime = serviceTime + sum of serviceTimes of customers in line
 	// before this customer; units in minutes
 	int entryTime; // Time that the customer enters the line; units in minutes
+
+	GroceryList groceryList;
 };
 
 #pragma region Data Members
 Data::Data()
 {
+	groceryList.generateRandomList(); 
+	serviceTime = groceryList.countList(); //extra credit. service time is based on number of items in grocery list
 	customerNumber = 0;
-	serviceTime = 0;
-	totalTime = 0;
+	totalTime = serviceTime;
 }
-Data::Data(int _customerNumber, int _serviceTime, int _totalTime, int _entryTime)
+Data::Data(int _customerNumber, int _totalTime, int _entryTime)
 {
+	groceryList.generateRandomList();
+	serviceTime = groceryList.countList(); //extra credit. service time is based on number of items in grocery list
 	customerNumber = _customerNumber;
-	serviceTime = _serviceTime;
-	totalTime = _totalTime;
+	totalTime = _totalTime + serviceTime;
 	entryTime = _entryTime;
 }
 Data::~Data()
@@ -77,9 +79,5 @@ void Data::setTotalTime(int _totalTime)
 void Data::setEntryTime(int _entryTime)
 {
 	entryTime = _entryTime;
-}
-void Data::printData()
-{
-
 }
 #pragma endregion

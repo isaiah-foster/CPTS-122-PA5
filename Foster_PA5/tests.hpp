@@ -19,7 +19,7 @@ void runTests()
 bool testEnqueue0()
 {
 	Queue<Data> Q;
-	Data first(3,5,10, 55);
+	Data first(3, 10, 55);
 	Q.enqueue(first);
 	return Q.dequeue().getCustomerNumber() == first.getCustomerNumber(); //confirms dequeued customer number matches queued one
 }
@@ -28,7 +28,7 @@ bool testEnqueue0()
 bool testEnqueue1()
 {
 	Queue<Data> Q;
-	Data first(3, 5, 10, 90), second(5,3,8, 60);
+	Data first(3, 10, 90), second(5, 8, 60);
 	Q.enqueue(first);
 	Q.enqueue(second); //enqueues second data, testing on a single member queue
 	Q.dequeue();

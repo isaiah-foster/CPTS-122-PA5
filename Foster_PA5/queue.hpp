@@ -10,7 +10,7 @@ private:
 public:
 	Queue();
 	~Queue();
-	void enqueue(T _data);
+	void enqueue(T &_data);
 	T dequeue();
 	bool isEmpty();
 	void printQueueRecursive();
@@ -35,7 +35,7 @@ Queue<T>::~Queue()
 }
 
 template <typename T>
-void Queue<T>::enqueue(T _data)
+void Queue<T>::enqueue(T &_data)
 {
 	Node<T>* pNewNode = new Node<T>(_data);
 	if (isEmpty())
@@ -53,22 +53,21 @@ void Queue<T>::enqueue(T _data)
 template <typename T>
 T Queue<T>::dequeue()
 {
+	T thing = pHead->getData();
 	if (pHead == pTail)
 	{
-		T thing = pHead->getData();
+		pHead->getData().getGroceryList().deleteList();
 		pHead = nullptr;
 		pTail = nullptr;
-		return thing;
 	}
 	else
 	{
 		Node<T>* pTemp = pHead;
 		pHead = pHead->getNext();
-		T thing = pTemp->getData();
+		pTemp->getData().getGroceryList().deleteList();
 		delete pTemp;
-		return thing;
 	}
-
+	return thing;
 }
 
 template <typename T>
@@ -90,7 +89,8 @@ void Queue<T>::printQueueRecursive(Node<T>* pCur)
 	{
 		return;
 	}
-	std::cout << pCur->getData().getCustomerNumber() << std::endl;
+	std::cout << pCur->getData().getCustomerNumber() << ": ";
+	pCur->getData().getGroceryList().printList(); //print grocery list after customer number
 	printQueueRecursive(pCur->getNext());
 }
 
@@ -99,7 +99,7 @@ T Queue<T>::peek()
 {
 	if (isEmpty())
 	{
-		return Data(0,0,0,0);
+		return Data(0, 0, 0);
 	}
 	else
 	{

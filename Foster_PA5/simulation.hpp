@@ -29,8 +29,6 @@ void Simulation::runSimulation(int run_minutes)
 
 	int nextNormalArrival = rand() % 5 + 3;
 	int nextExpressArrival = rand() % 5 + 1;
-	
-	int serviceTime = 0;
 
 	int normalCustomerNumber = 0;
 	int expressCustomerNumber = 0;
@@ -46,9 +44,8 @@ void Simulation::runSimulation(int run_minutes)
 		if (elapsed_time == nextNormalArrival)
 		{
 			normalCustomerNumber++;
-			serviceTime = rand() % 5 + 3;
-			normalTotalTime += serviceTime;
-			Data customer(normalCustomerNumber, serviceTime, normalTotalTime, elapsed_time);
+			Data customer(normalCustomerNumber, normalTotalTime, elapsed_time);
+			normalTotalTime += customer.getServiceTime();
 			normal.enqueue(customer);
 			nextNormalArrival = elapsed_time + rand() % 5 + 3;
 			std::cout << "Normal customer " << customer.getCustomerNumber() << " has arrived at time " << elapsed_time << std::endl;
@@ -58,9 +55,8 @@ void Simulation::runSimulation(int run_minutes)
 		if (elapsed_time == nextExpressArrival)
 		{
 			expressCustomerNumber++;
-			serviceTime = rand() % 5 + 1;
-			expressTotalTime += serviceTime;
-			Data customer(expressCustomerNumber, serviceTime, expressTotalTime, elapsed_time);
+			Data customer(expressCustomerNumber, expressTotalTime, elapsed_time);
+			expressTotalTime += customer.getServiceTime();
 			express.enqueue(customer);
 			nextExpressArrival = elapsed_time + rand() % 5 + 1;
 			std::cout << "Express customer " << customer.getCustomerNumber() << " has arrived at time " << elapsed_time << std::endl;

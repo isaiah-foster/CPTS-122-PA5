@@ -1,92 +1,98 @@
 #pragma once
-#include "data.hpp"
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <time.h>
+#include <Windows.h>
 
-class groceryItem
+//node class
+class GroceryItem
 {
 private:
 	std::string name;
-	groceryItem* pNext;
+	GroceryItem* pNext;
 public:
-	groceryItem();
-	groceryItem(std::string _name);
-	~groceryItem();
-	groceryItem* getNext();
-	void setNext(groceryItem* _pNext);
+	GroceryItem();
+	GroceryItem(std::string _name);
+	~GroceryItem();
+	GroceryItem* getNext();
+	std::string getName() { return name; }
+	void setNext(GroceryItem* _pNext);
 };
 
 #pragma region GroceryItem Members
-groceryItem::groceryItem()
+GroceryItem::GroceryItem()
 {
 	name = "";
 	pNext = nullptr;
 }
-groceryItem::groceryItem(std::string _name)
+GroceryItem::GroceryItem(std::string _name)
 {
 	name = _name;
 	pNext = nullptr;
 }
-groceryItem::~groceryItem()
+GroceryItem::~GroceryItem()
 {
 
 }
-groceryItem* groceryItem::getNext()
+GroceryItem* GroceryItem::getNext()
 {
 	return pNext;
 }
-void groceryItem::setNext(groceryItem* _pNext)
+void GroceryItem::setNext(GroceryItem* _pNext)
 {
 	pNext = _pNext;
 }
 #pragma endregion
 
-class groceryList
+//Linked list class
+class GroceryList
 {
 private:
-	groceryItem* pHead;
-	int countList();
+	GroceryItem* pHead;
 public:
-	groceryList();
-	~groceryList();
-	void addItem(groceryItem item);
+	GroceryList();
+	~GroceryList();
+	void addItem(GroceryItem item);
 	void generateRandomList();
+	int countList();
+	void deleteList();
+	void printList();
 };
 
 #pragma region GroceryList Members
-groceryList::groceryList()
+GroceryList::GroceryList()
 {
 	pHead = nullptr;
 }
-groceryList::~groceryList()
+GroceryList::~GroceryList()
 {
-	while (pHead != nullptr)
-	{
-		groceryItem* pTemp = pHead;
-		pHead = pHead->getNext();
-		delete pTemp;
-	}
+	//while (pHead != nullptr)
+	//{
+	//	GroceryItem* pTemp = pHead;
+	//	pHead = pHead->getNext();
+	//	delete pTemp;
+	//}
+	//cant delete here cause it will delete the items in the queue
+	//deleting with deleteList in dequeue in queue class
 }
-void groceryList::addItem(groceryItem item)
+void GroceryList::addItem(GroceryItem item)
 {
-	groceryItem* pNewNode = new groceryItem(item);
+	GroceryItem* pNewNode = new GroceryItem(item);
 	if (pHead == nullptr)
 	{
 		pHead = pNewNode;
 	}
 	else
 	{
-		groceryItem* pCur = pHead;
-		while (pCur->getNext() != nullptr)
-		{
-			pCur = pCur->getNext();
-		}
-		pCur->setNext(pNewNode);
+		pNewNode->setNext(pHead);
+		pHead = pNewNode;
 	}
 }
-
-int groceryList::countList()
+int GroceryList::countList()
 {
 	int count = 0;
-	groceryItem* pCur = pHead;
+	GroceryItem* pCur = pHead;
 	while (pCur != nullptr)
 	{
 		count++;
@@ -94,14 +100,34 @@ int groceryList::countList()
 	}
 	return count;
 }
-void groceryList::generateRandomList()
+void GroceryList::generateRandomList()
 {
 	std::string items[] = { "apple", "banana", "carrot", "doughnut", "eggplant", "fries", "grapes", "hamburger", "ice cream", "jelly beans" };
-	int numItems = rand() % 10 + 1;
+	int numItems = rand() % 4 + 1; //customers have between 1 and 4 items. More makes them not process fast enough for arrival times
 	for (int i = 0; i < numItems; i++)
 	{
-		addItem(groceryItem(items[rand() % 10]));
+		addItem(GroceryItem(items[rand() % 10]));
 	}
-
 }
+void GroceryList::deleteList()
+{
+	while (pHead != nullptr)
+	{
+		GroceryItem* pTemp = pHead;
+		pHead = pHead->getNext();
+		delete pTemp;
+	}
+}
+
+void GroceryList::printList()
+{
+	GroceryItem* pCur = pHead;
+	while (pCur != nullptr)
+	{
+		std::cout << pCur->getName() << ", ";
+		pCur = pCur->getNext();
+	}
+	std::cout << std::endl;
+}
+
 #pragma endregion
