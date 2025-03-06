@@ -1,3 +1,12 @@
+/*File: queue.hpp
+* Author: Isaiah Foster
+* Professor: Andy O'fallon
+* Class: Cpts_122
+* Assignment: PA5
+* Created: 03/02/2025
+* Last updated: 03/05/2025
+* Description: Defines Queue class of nodes for use in simulation
+*/
 #pragma once
 #include "node.hpp"
 
@@ -50,6 +59,7 @@ void Queue<T>::enqueue(T &_data)
 	}
 }
 
+//dequeues and deletes the grocery list of the customer
 template <typename T>
 T Queue<T>::dequeue()
 {
@@ -76,12 +86,14 @@ bool Queue<T>::isEmpty()
 	return pHead == nullptr;
 }
 
+//accesses private version of printQueueRecursive
 template <typename T>
 void Queue<T>::printQueueRecursive()
 {
 	printQueueRecursive(pHead);
 }
 
+//prints the queue recursively
 template <typename T>
 void Queue<T>::printQueueRecursive(Node<T>* pCur)
 {
@@ -94,6 +106,7 @@ void Queue<T>::printQueueRecursive(Node<T>* pCur)
 	printQueueRecursive(pCur->getNext());
 }
 
+//returns the data of the head of the queue without printing it
 template <typename T>
 T Queue<T>::peek()
 {

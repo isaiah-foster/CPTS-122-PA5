@@ -1,4 +1,3 @@
-#include "tests.hpp"
 /*File: main.cpp
 * Author: Isaiah Foster
 * Professor: Andy O'fallon
@@ -8,6 +7,8 @@
 * Last updated: 03/05/2025
 * Description: Runs tests, creates and runs a simulation for 8 hours
 */
+#include "tests.hpp"
+
 int main(void)
 {
 	runTests();

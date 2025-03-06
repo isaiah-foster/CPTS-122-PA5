@@ -1,5 +1,15 @@
+/*File: node.hpp
+* Author: Isaiah Foster
+* Professor: Andy O'fallon
+* Class: Cpts_122
+* Assignment: PA5
+* Created: 03/02/2025
+* Last updated: 03/05/2025
+* Description: defines node class for queue holding customer data
+*/
 #pragma once
 #include "data.hpp"
+
 
 template <typename T> class Node
 {

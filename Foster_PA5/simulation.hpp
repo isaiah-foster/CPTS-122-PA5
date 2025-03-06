@@ -1,6 +1,16 @@
+/*File: simulation.hpp
+* Author: Isaiah Foster
+* Professor: Andy O'fallon
+* Class: Cpts_122
+* Assignment: PA5
+* Created: 03/02/2025
+* Last updated: 03/05/2025
+* Description: Defines simulation class to simulate a grocery store with express and normal lanes
+*/
 #pragma once
 #include "queue.hpp"
 #define SLEEP_TIME .01
+
 
 class Simulation
 {
@@ -23,6 +33,7 @@ Simulation::~Simulation()
 {
 }
 
+//runs a simulation for a user given number of minutes
 void Simulation::runSimulation(int run_minutes)
 {
 	srand((unsigned int)time(NULL));
